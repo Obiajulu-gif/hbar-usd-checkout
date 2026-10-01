@@ -1,0 +1,67 @@
+{
+  "name": "hbar-usd-checkout",
+  "description": "USD-priced checkout settled in HBAR: Chainlink HBAR/USD data feed prices each payment on-chain, receipts are written to Hedera Consensus Service and read back from the mirror node.",
+  "version": "1.0.0",
+  "create-scaffold-hbar": {
+    "capabilities": {
+      "frontend": ["nextjs-app"],
+      "solidityFramework": ["hardhat"],
+      "packageManager": ["yarn", "npm"]
+    },
+    "defaults": {
+      "frontend": "nextjs-app",
+      "solidityFramework": "hardhat",
+      "packageManager": "yarn"
+    },
+    "requirements": {
+      "node": ">=20.18.3"
+    },
+    "outro": {
+      "sections": [
+        {
+          "steps": [
+            {
+              "text": "USD checkout settled in HBAR, priced by Chainlink and receipted on HCS. The frontend already points at a live Checkout contract on Hedera testnet."
+            }
+          ]
+        },
+        {
+          "title": "Try it",
+          "steps": [
+            {
+              "label": "Start the frontend",
+              "command": "{run:next:dev}"
+            },
+            {
+              "label": "Fund your wallet with testnet HBAR",
+              "url": "https://portal.hedera.com/faucet"
+            }
+          ]
+        },
+        {
+          "title": "Make it yours",
+          "steps": [
+            {
+              "label": "Copy the frontend env file and add your testnet account",
+              "command": "cp packages/nextjs/.env.example packages/nextjs/.env.local"
+            },
+            {
+              "label": "Create your HCS receipt topic",
+              "command": "{run:hcs:create-topic}"
+            },
+            {
+              "label": "Import a deployer account and deploy your own Checkout",
+              "command": "{run:hardhat:account:import}"
+            },
+            {
+              "command": "{run:hardhat:deploy} --network hederaTestnet"
+            },
+            {
+              "text": "README.md walks through every step; AGENTS.md briefs your coding agent."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
