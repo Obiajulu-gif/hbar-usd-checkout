@@ -23,7 +23,9 @@ type ReceiptState =
 const PayPage: NextPage = () => {
   const params = useParams<{ id: string }>();
   const id = /^\d+$/.test(params.id) ? BigInt(params.id) : undefined;
-  const { isConnected } = useAccount();
+  // `isConnected` stays false while wagmi is "reconnecting" after a full page load, even though the
+  // wallet is usable; an address means we can send.
+  const isConnected = Boolean(useAccount().address);
   const { targetNetwork } = useTargetNetwork();
   const [txHash, setTxHash] = useState<Hash>();
   const [receipt, setReceipt] = useState<ReceiptState>({ status: "idle" });

@@ -12,7 +12,9 @@ import { formatUsd, parseUsdToCents } from "~~/utils/checkout/units";
 const MAX_MEMO_BYTES = 100;
 
 const Home: NextPage = () => {
-  const { isConnected } = useAccount();
+  // `isConnected` stays false while wagmi is "reconnecting" after a full page load, even though the
+  // wallet is usable; an address means we can send.
+  const isConnected = Boolean(useAccount().address);
   const [amount, setAmount] = useState("25.00");
   const [memo, setMemo] = useState("");
   const [createdId, setCreatedId] = useState<bigint>();
