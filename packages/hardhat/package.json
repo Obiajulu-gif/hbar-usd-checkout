@@ -18,8 +18,8 @@
     "lint-staged": "eslint",
     "test": "HEDERA_FORKING=true REPORT_GAS=true hardhat test",
     "verify": "hardhat verify",
-    "verify:testnet": "hardhat verify --network hederaTestnet",
-    "verify:mainnet": "hardhat verify --network hederaMainnet",
+    "verify:testnet": "hardhat run scripts/verifySourcify.ts --network hederaTestnet",
+    "verify:mainnet": "hardhat run scripts/verifySourcify.ts --network hederaMainnet",
     "smoke": "ts-node scripts/runHardhatDeployWithPK.ts run scripts/smokeCheckout.ts"
   },
   "devDependencies": {

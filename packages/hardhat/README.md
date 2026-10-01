@@ -55,7 +55,7 @@ You need a deployer account with HBAR on the target network. Without funds, depl
 
 5. **Verify on Sourcify** (shows as verified on HashScan):
    ```bash
-   yarn hardhat:verify:testnet <checkoutAddress> <feedAddress> <maxPriceAgeSec>
+   yarn hardhat:verify:testnet   # Sourcify API v2, reads deployments/hederaTestnet
    ```
 
 ## Layout

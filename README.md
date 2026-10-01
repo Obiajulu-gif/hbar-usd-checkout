@@ -20,9 +20,9 @@ The scaffold points at this deployment, so the app works before you deploy anyth
 
 | What | Link |
 | --- | --- |
-| Checkout contract | __CONTRACT_LINK__ |
-| Example payment (`pay`) | __PAY_TX_LINK__ |
-| HCS receipt topic | __TOPIC_LINK__ |
+| Checkout contract | [0xEc49…853d](https://hashscan.io/testnet/contract/0xEc49609ACd45092802EB576DC9Fc7AFa6b13853d) |
+| Example payment (`pay`) | [$0.25 paid with 2.382 HBAR](https://hashscan.io/testnet/transaction/0xd80c40405e5f171699d7eee1966b9928067b1eefa1efdcf49bcfff9ed8bc372d) |
+| HCS receipt topic | [0.0.10805745](https://hashscan.io/testnet/topic/0.0.10805745) (receipt #1 is that payment) |
 | Chainlink HBAR/USD feed (testnet) | [0x59bC…2B4a](https://hashscan.io/testnet/contract/0x59bC155EB6c6C415fE43255aF66EcF0523c92B4a) |
 
 ## How it works
@@ -140,7 +140,12 @@ yarn hardhat:account:import      # paste your ECDSA key, choose a password (stor
 yarn hardhat:deploy --network hederaTestnet
 ```
 
-The deploy writes the new address and ABI to `packages/nextjs/contracts/deployedContracts.ts`, and the frontend switches over automatically. Verify on Sourcify with `yarn hardhat:verify:testnet <address> <feed> <maxPriceAgeSec>`.
+The deploy writes the new address and ABI to `packages/nextjs/contracts/deployedContracts.ts`, and the frontend switches over automatically. Check the live deployment end to end ($0.25 checkout: create, quote, pay, with HashScan links):
+
+```bash
+yarn hardhat:smoke --network hederaTestnet
+```
+ Verify the source on Sourcify (shown on HashScan) with `yarn hardhat:verify:testnet`.
 
 ## Environment variables
 

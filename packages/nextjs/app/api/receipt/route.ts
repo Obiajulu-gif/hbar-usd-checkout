@@ -15,7 +15,10 @@ export async function POST(req: Request) {
   const config = readHcsConfig();
   if (!config) {
     return NextResponse.json(
-      { error: "HCS receipts are not configured. Set HEDERA_OPERATOR_ID, HEDERA_OPERATOR_KEY and NEXT_PUBLIC_HCS_TOPIC_ID." },
+      {
+        error:
+          "HCS receipts are not configured. Set HEDERA_OPERATOR_ID, HEDERA_OPERATOR_KEY and NEXT_PUBLIC_HCS_TOPIC_ID.",
+      },
       { status: 503 },
     );
   }
@@ -38,7 +41,12 @@ export async function POST(req: Request) {
       .map(m => ({ seq: m.sequence_number, r: parseReceipt(decodeBase64(m.message)) }))
       .find(({ r }) => r?.txHash.toLowerCase() === txHash);
     if (existing || submitted.has(txHash)) {
-      return NextResponse.json({ receipt, topicId: config.topicId, sequenceNumber: existing?.seq ?? null, duplicate: true });
+      return NextResponse.json({
+        receipt,
+        topicId: config.topicId,
+        sequenceNumber: existing?.seq ?? null,
+        duplicate: true,
+      });
     }
 
     submitted.add(txHash);

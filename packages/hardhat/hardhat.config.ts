@@ -23,8 +23,7 @@ import generateTsAbis from "./scripts/generateTsAbis";
 const hederaRpcUrl = process.env.HEDERA_RPC_URL || "https://testnet.hashio.io/api";
 
 // Deployer key: run `yarn account:generate` or `yarn account:import`, or set __RUNTIME_DEPLOYER_PRIVATE_KEY at runtime.
-const deployerPrivateKey =
-  process.env.__RUNTIME_DEPLOYER_PRIVATE_KEY ?? "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+const deployerAccounts = process.env.__RUNTIME_DEPLOYER_PRIVATE_KEY ? [process.env.__RUNTIME_DEPLOYER_PRIVATE_KEY] : [];
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -59,12 +58,12 @@ const config: HardhatUserConfig = {
     },
     hederaTestnet: {
       url: "https://testnet.hashio.io/api",
-      accounts: [deployerPrivateKey],
+      accounts: deployerAccounts,
       chainId: 296,
     },
     hederaMainnet: {
       url: "https://mainnet.hashio.io/api",
-      accounts: [deployerPrivateKey],
+      accounts: deployerAccounts,
       chainId: 295,
     },
   },
