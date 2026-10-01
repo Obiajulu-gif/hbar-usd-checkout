@@ -6,6 +6,10 @@
 npx create-scaffold-hbar@latest --template Obiajulu-gif/hbar-usd-checkout
 ```
 
+**Live demo:** [hbar-usd-checkout.vercel.app](https://hbar-usd-checkout.vercel.app) (Hedera testnet)
+
+![Merchant creates a $0.50 checkout, the payer pays 4.80 HBAR at the live Chainlink rate, and the receipt lands on HCS](docs/pay-flow.gif)
+
 Almost every shop, SaaS plan, invoice or donation page needs a price in a fiat currency and settlement in the native token. Doing that correctly on Hedera means handling oracle staleness, decimal scaling, rounding, refunds, the tinybar/weibar split and an audit trail. This template ships all of it, tested and documented, so you can start from a working payment flow.
 
 | | |
@@ -147,6 +151,10 @@ yarn hardhat:smoke --network hederaTestnet
 ```
  Verify the source on Sourcify (shown on HashScan) with `yarn hardhat:verify:testnet`.
 
+### 4. Deploy the frontend to Vercel (optional)
+
+Import the repo in Vercel and set **Root Directory** to `packages/nextjs`. Add the environment variables from the table below. Set `HEDERA_OPERATOR_KEY` as a **Sensitive** variable, and set `YARN_ENABLE_IMMUTABLE_INSTALLS=false` so Vercel's Yarn install accepts the workspace lockfile. Without the operator key the deployed app still takes payments; only HCS receipts are skipped.
+
 ## Environment variables
 
 `packages/nextjs/.env.local`
@@ -228,6 +236,7 @@ Contract tests run on an in-memory Hardhat chain with `MockAggregator`, so they 
 | --- | --- |
 | "No fresh HBAR/USD price" on the pay page | The feed has not updated within `maxPriceAgeSec`. Wait for the next round or redeploy with a larger `MAX_PRICE_AGE_SEC`. |
 | `Underpaid` revert | The price moved more than the 1% buffer between quote and execution. Retry. |
+| "Gas price below configured minimum" | Hashio reports a placeholder block base fee. `scaffold.config.ts` overrides fee estimation with `eth_gasPrice` for Hedera chains; keep that override if you replace the chain config. |
 | Wallet shows a tiny amount or 0 | A tinybar value was sent as weibars. Use `tinybarsToWeibars()`. |
 | "HCS receipts are not configured" (503) | Set the three receipt variables in `packages/nextjs/.env.local` and restart the dev server. |
 | "Transaction not found on the mirror node yet" | The mirror node lags consensus by a few seconds. Use the Retry button. |

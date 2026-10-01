@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { NextPage } from "next";
 import { parseEventLogs } from "viem";
-import { useAccount } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-hbar";
 import { CHECKOUT } from "~~/utils/checkout/receipt";
 import { formatUsd, parseUsdToCents } from "~~/utils/checkout/units";
@@ -12,9 +12,9 @@ import { formatUsd, parseUsdToCents } from "~~/utils/checkout/units";
 const MAX_MEMO_BYTES = 100;
 
 const Home: NextPage = () => {
-  // `isConnected` stays false while wagmi is "reconnecting" after a full page load, even though the
-  // wallet is usable; an address means we can send.
-  const isConnected = Boolean(useAccount().address);
+  // Writes need a wallet client. Checking it (rather than useAccount().isConnected) keeps the button
+  // usable while wagmi reports "reconnecting" after a full page load.
+  const isConnected = Boolean(useWalletClient().data);
   const [amount, setAmount] = useState("25.00");
   const [memo, setMemo] = useState("");
   const [createdId, setCreatedId] = useState<bigint>();

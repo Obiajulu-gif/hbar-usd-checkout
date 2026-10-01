@@ -23,7 +23,8 @@ Browser ──POST /api/receipt {txHash}──▶ mirror node /contracts/results
 4. **Checks-effects-interactions in `pay`.** The status flips to `Paid` and the event is emitted before any HBAR moves.
 5. **Receipts come from the chain.** `/api/receipt` accepts only a tx hash. Every receipt field is decoded from the mirror node's copy of the `Paid` log (`receiptFromContractResult`). Never accept amounts from the client.
 6. **The operator key stays on the server.** `HEDERA_OPERATOR_KEY` is read only in `utils/checkout/hcs.ts` (API routes) and `scripts/createTopic.mjs`. Never give it a `NEXT_PUBLIC_` prefix.
-7. **No `eth_getLogs` for history.** Hedera's JSON-RPC relay limits log queries to short block ranges. Read history from the mirror node (receipts) or contract state (`getCheckout`).
+7. **Fees come from `eth_gasPrice`.** `packages/nextjs/scaffold.config.ts` gives the Hedera chains a `fees.estimateFeesPerGas` override, because Hashio's block `baseFeePerGas` is a placeholder and viem's default estimate gets rejected. Keep it when you edit the chain list.
+8. **No `eth_getLogs` for history.** Hedera's JSON-RPC relay limits log queries to short block ranges. Read history from the mirror node (receipts) or contract state (`getCheckout`).
 
 ## Commands
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import type { NextPage } from "next";
 import type { Hash } from "viem";
-import { useAccount } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { HederaAddress } from "~~/components/scaffold-hbar";
 import { useScaffoldReadContract, useScaffoldWriteContract, useTargetNetwork } from "~~/hooks/scaffold-hbar";
 import { hashscanUrl } from "~~/utils/checkout/mirror";
@@ -23,9 +23,9 @@ type ReceiptState =
 const PayPage: NextPage = () => {
   const params = useParams<{ id: string }>();
   const id = /^\d+$/.test(params.id) ? BigInt(params.id) : undefined;
-  // `isConnected` stays false while wagmi is "reconnecting" after a full page load, even though the
-  // wallet is usable; an address means we can send.
-  const isConnected = Boolean(useAccount().address);
+  // Writes need a wallet client. Checking it (rather than useAccount().isConnected) keeps the button
+  // usable while wagmi reports "reconnecting" after a full page load.
+  const isConnected = Boolean(useWalletClient().data);
   const { targetNetwork } = useTargetNetwork();
   const [txHash, setTxHash] = useState<Hash>();
   const [receipt, setReceipt] = useState<ReceiptState>({ status: "idle" });
